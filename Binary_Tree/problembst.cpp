@@ -78,4 +78,13 @@ int maxPath(TreeNode* root, int &maxi){
 
 //ques 5:-Check if two trees are indentical or not in bst .....>>>>>
 
+bool isSameTree(TreeNode* p, TreeNode* q){
+    if(p==NULL || q==NULL) return (p==q);
+
+    return (p->val == q->val)
+            && isSameTree(p->left, q->left)
+            && isSameTree(p->right, q->right);
+}
+
+//Ques 6:- zig zag traversal of binary tree.....>>>>>
 
