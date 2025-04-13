@@ -499,4 +499,3 @@ bool isPOssible(int a, int b){
         return build(preorder, 0, inorder.size() - 1);
     }
 
-//Ques 19:-
