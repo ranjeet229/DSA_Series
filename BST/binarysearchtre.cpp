@@ -123,4 +123,146 @@ TreeNode* minValueNode(TreeNode* node) {
     return node;
 }
 
-//Ques 6:- 
+//Ques 6:- Kth  and kth largest  element in a binary tree......>>>
+
+class Solution {
+private:
+    void reverseInorder(TreeNode* node, int& counter, int k, int& kLargest) {
+        if (!node || counter >= k) return;
+
+        // Traverse right subtree
+        reverseInorder(node->right, counter, k, kLargest);
+
+        // Increment counter after
+        // visiting right subtree
+        counter++;
+
+        // Check if current node
+        // is the Kth largest
+        if (counter == k) {
+            kLargest = node->val;
+            return;
+        }
+
+        // Traverse left subtree if
+        // Kth largest is not found yet
+        reverseInorder(node->left, counter, k, kLargest);
+    }
+
+    // Helper function to perform inorder
+    // traversal to find Kth smallest element
+    void inorder(TreeNode* node, int& counter, int k, int& kSmallest) {
+        if (!node || counter >= k) return;
+        inorder(node->left, counter, k, kSmallest);
+        counter++;
+        if (counter == k) {
+            kSmallest = node->val;
+            return;
+        }
+
+        inorder(node->right, counter, k, kSmallest);
+    }
+
+public:
+    pair<int, int> findKth(TreeNode* root, int k) {
+        int kSmallest = INT_MIN, kLargest = INT_MIN;
+        int counter = 0;
+        inorder(root, counter, k, kSmallest);
+        counter = 0;
+        reverseInorder(root, counter, k, kLargest);
+
+        return make_pair(kSmallest, kLargest);
+    }
+};
+
+void printInOrder(TreeNode* root) {
+    if (root == nullptr) {
+        return;
+    }
+    printInOrder(root->left);
+    cout << root->val << " ";
+    printInOrder(root->right);
+}
+
+int main() {
+    // Creating a BST
+    TreeNode* root = new TreeNode(10);
+    root->left = new TreeNode(5);
+    root->right = new TreeNode(13);
+    root->left->left = new TreeNode(3);
+    root->left->left->left = new TreeNode(2);
+    root->left->left->right = new TreeNode(4);
+    root->left->right = new TreeNode(6);
+    root->left->right->right = new TreeNode(9);
+    root->right->left = new TreeNode(11);
+    root->right->right = new TreeNode(14);
+
+    cout << "Binary Search Tree: "<< endl;
+    printInOrder(root);
+    cout << endl;
+    Solution solution;
+    int k = 3;
+    cout << "k: "<< k <<endl;
+    pair<int, int> kthElements = solution.findKth(root, k);
+
+    cout << "Kth smallest element: " << kthElements.first << endl;
+    cout << "Kth largest element: " << kthElements.second << endl;
+
+    return 0;
+}
+
+//ques7: - check if a tree is a bst or bt .........>>>
+bool isValidBST(TreeNode* root) {
+    return validate(root, LONG_MIN, LONG_MAX);
+}
+bool validate(TreeNode* node, long minVal, long maxVal) {
+    if (node == nullptr) return true;
+    if (node->val <= minVal || node->val >= maxVal) return false;
+    return validate(node->left, minVal, node->val) &&
+           validate(node->right, node->val, maxVal);
+}
+
+//Ques 8:- LCA(Lowest Common Ancesstor) in a bst...........>>>>
+TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+    if (!root) return nullptr;
+   if (p->val < root->val && q->val < root->val) {
+       return lowestCommonAncestor(root->left, p, q);
+   }
+   if (p->val > root->val && q->val > root->val) {
+       return lowestCommonAncestor(root->right, p, q);
+   }
+   return root;
+}
+
+//Ques 9:-construct BST from preorder traversal............>>>>>>>
+
+TreeNode* bstFromPreorder(vector<int>& A){
+    int i=0;
+    return build(A,i,INT_MAX);
+}
+TreeNode* build(vector<int>&A, int &i, int bound){
+    if(i==A.size() || A[i]>bound) return NULL;
+    TreeNode* root=new TreeNode(A[i++]);
+    root->left=build(A,i, root->val);
+    root->right=build(A, i, bound);
+    return root;
+}
+
+//Ques 10:- Inorder successor/Predecessor in bst ..........>>>>>
+
+TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p){
+    TreeNode* successor=NULL;
+
+    while(!root){
+        if(p->val >=root->val){
+            root=root->right;
+        }else{
+            successor=root;
+            root=root->left;
+        }
+    }
+    return successor;
+}
+
+//Ques 11:- BST Iterator..........>>>>> merge 2 bst........>>>>>
+
