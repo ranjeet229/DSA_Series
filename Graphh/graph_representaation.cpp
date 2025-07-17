@@ -159,7 +159,7 @@ int orangesRotting(vector<vector<int>>& grid){
 //FLood Fill algorithm......>>>>
 //sr means starting row and sc means starting column....>>>
 
-void dfs(int row, int col,vector<vector<int>>&ans, 
+void dfs(int row, int col,vector<vector<int>>&ans,
     vector<vector<int>>& image, int newColor, int delRow[], int delCol[], int initColor){
      ans[row][col]=newColor;
      int n=image.size();
@@ -248,4 +248,95 @@ bool isCycle(int v, vector<int> adj[]){
     return false;
 }
 
-//Distance of the nearest call having 1......>>>>>
+//ques 13:- Distance of the nearest call having 1......>>>>>
+
+vector<vector<int>> nearest(vector<vector<int>> grid){
+    int n=grid.size();
+    int m=grid[0].size();
+
+    vector<vector<int>> vis(n, vector<int>(m,0));
+    vector<vector<int>> dist(n , vector<int>(m,0));
+
+    queue<pair<pair<int, int> , int>> q;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(grid[i][j] == 1){
+                q.push({{i,j} , 0});
+                vis[i][j]=1;
+            }else{
+                vis[i][j] =0;
+            }
+        }
+    }
+    int delrow[]={-1,0,1,0};
+    int delcol[]={0,1,0,-1};
+    while(!q.empty()){
+        int row = q.front().first.first;
+        int col=q.front().first.second;
+        int steps=q.front().second;
+
+        q.pop();
+        dist[row][col] = steps;
+
+        for(int i=0;i<4;i++){
+            int nrow= row+ delrow[i];
+            int ncol=col + delcol[i];
+
+            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && vis[nrow][ncol] == 0){
+                vis[nrow][ncol] == 1;
+                q.push({{nrow, ncol} , steps+1});
+            }
+        }
+    }
+    return dist;
+}
+
+//NUmber of enclaves ......>>using bfs
+
+int numberOfEnclaves(vector<vector<int>> grid){
+    queue<pair<int, int>> q;
+    int n=grid.size();
+    int m=grid[0].size();
+
+    int vis[n][m] = {0};
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(i ==0 || j== 0 || i == n-1 || j == m-1 ){
+                if(grid[i][j] == 1){
+                    q.push({i, j});
+                    vis[i][j] = 1;
+                }
+            } 
+        }  
+    }
+    int delrow[] = {-1,0,1,0};
+    int delcol[] = {0,1,0,-1};
+
+    while(!q.empty()){
+        int row = q.front().first;
+        int col = q.front().second;
+        q.pop();
+
+        //traverse all 4 direction 
+        for(int i =0; i<4 ;i++){
+            int nrow = row + delrow[i];
+            int ncol = col + delcol[i];
+
+            if(nrow>=0 && nrow < n && ncol >= 0 && ncol < m &&
+            vis[nrow][ncol] == 0 && grid[nrow][ncol] == 1 ){
+                q.push({nrow, ncol});
+                vis[nrow][ncol] = 1;
+            }
+        }
+        int cnt=0;
+        if(int i=0;i<n; i++){
+            for(int j =0;j<m;j++){
+                if(grid[i][j] == 1 && vis[i][j] ) cnt++;
+            }
+        }
+        return cnt;
+    }
+
+}
+
+
