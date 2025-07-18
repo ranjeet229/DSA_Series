@@ -66,22 +66,3 @@
 
 // }
 
-//Word ladder i
-#include<bits/stdc++.h>
-using namespace std;
-
-int WordLadder(string startword, string endword, vector<string>&wordlist){
-    queue<pair<int>> q;
-    q.push({startword, 1});
-    unodered_set<string> st(wordlist.begin(), wordlist.end());
-    st.erase(startword);
-
-    while(!q.empty()){
-        string word = q.front().first;
-        int steps =   q.front().second;
-    }
-}
-
-int main(){
-
-}
