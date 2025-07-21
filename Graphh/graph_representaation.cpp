@@ -28,9 +28,6 @@ using namespace std;
 // }
 
 //Ques:- Traversal technique in graph using bfs ....>>>
-#include <vector>
-#include <queue>
-using namespace std;
 
 vector<int> bfsOfGraph(int v, vector<int> adj[]) {
     vector<int> bfs;
