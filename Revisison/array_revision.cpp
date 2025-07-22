@@ -47,32 +47,86 @@ using namespace std;
 
 //better apporach 
 
-void getElements(int arr[], int n){
-    if(n==0 || n==1){
-        cout<<-1<<" "<<-1<<endl;
-    }
-    int small = INT_MAX, second_small = INT_MAX;
-    int large= INT_MIN, second_large = INT_MIN;
+// void getElements(int arr[], int n){
+//     if(n==0 || n==1){
+//         cout<<-1<<" "<<-1<<endl;
+//     }
+//     int small = INT_MAX, second_small = INT_MAX;
+//     int large= INT_MIN, second_large = INT_MIN;
 
-    int i;
-    for(i=0;i<n;i++){
-        small=min(small, arr[i]);
-        large= max(large, arr[i]);
-    }
-    for(i=0;i<n;i++){
-        if(arr[i]<second_small && arr[i] !=small){
-            second_small=arr[i];
+//     int i;
+//     for(i=0;i<n;i++){
+//         small=min(small, arr[i]);
+//         large= max(large, arr[i]);
+//     }
+//     for(i=0;i<n;i++){
+//         if(arr[i]<second_small && arr[i] !=small){
+//             second_small=arr[i];
+//         }
+//         else if( arr[i] > second_large && arr[i] !=large){
+//             second_large = arr[i];
+//         }
+//     }
+//     cout <<second_large<<endl;
+//     cout<<second_small<<endl;
+// }
+// int main(){
+//     int arr[] ={14,1,2,3,4};
+//     int n = sizeof(arr) / sizeof(arr[0]);
+//     getElements(arr, n );
+//     return 0;
+// }
+
+//Ques 3: check if an array is sorted or not 
+// bool isSorted(int arr[], int n ){
+//     for(int i=1;i<n;i++){
+//         if(arr[i] <arr[i-1]){
+//             return false;
+//         }
+//     }
+//     return true;
+// }
+// int main() {
+
+//   int arr[] = {1, 2, 3, 4, 5}, n = 5;
+//   bool ans = isSorted(arr, n);
+//   if (ans) cout << "True" << endl;
+//   else cout << "False" << endl;
+//   return 0;
+// }
+
+//remove duplicate element in a array ....>>>
+//using hashmap
+// int removeDuplicates(int arr[], int n ){
+//     set<int> st;
+//     for(int i=0;i<n;i++){
+//         st.insert(arr[i]);
+//     }
+//     int idx=0;
+//     for(auto it :st){
+//         arr[idx] =it;
+//         idx++;
+//     }
+//     return idx;
+// }
+
+//using two pointer
+int removeDuplicates(int arr[], int n ){
+    int i=0;
+    for(int j =1;j<n;j++){
+        if(arr[i] !=arr[j]){
+            i++;
+            arr[i]=arr[j];
         }
-        else if( arr[i] > second_large && arr[i] !=large){
-            second_large = arr[i];
-        }
     }
-    cout <<second_large<<endl;
-    cout<<second_small<<endl;
+    return i+1;
 }
-int main(){
-    int arr[] ={14,1,2,3,4};
-    int n = sizeof(arr) / sizeof(arr[0]);
-    getElements(arr, n );
-    return 0;
+int main() {
+  int arr[] = {1,1,2,2,2,3,3};
+  int n = sizeof(arr)/sizeof(arr[0]);
+  int k = removeDuplicates(arr, n);
+  cout << "The array after removing duplicate elements is " << endl;
+  for (int i = 0; i < k; i++) {
+    cout << arr[i] << " ";
+  }
 }
