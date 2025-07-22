@@ -109,3 +109,38 @@ bool isBipartite(int v, vector<int>adj[]){
     }
 }
 
+// Detect the cyclw in a directed graph usig dfs ....>>>
+
+bool dfsCheck(int node, vector<int> adj[], int vis[], int pathvis[]){
+    vis[node] =1;
+    pathvis[node] =1;
+
+    //traverse for adj node
+    for(auto it: adj[node]){
+        if(!vis[it]){
+            if(dfscheck(it, adj, vis, pathvis) == true)
+            return true;
+        }
+        //if the node has been previsouly visited
+        //but it has to be visited on the same path
+        else if(pathvis[it]){
+            return true;
+        }
+    }
+
+
+
+    pathvis[node] =0;
+    return false;
+}
+
+bool isCycle(int v, vector<int> adj[]){
+    int vis[v] = {0};
+    int pathvis[v] ={0};
+    for(int i =0;i<v;i++){
+        if(!vis[i]){
+            if(dfsCheck(i, adj, vis, pathvis) == true) return true;
+        }
+    }
+    return false;
+} 
