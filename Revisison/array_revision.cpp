@@ -144,19 +144,63 @@ using namespace std;
 //     }
 //     cout<<endl;
 // }
-void solve(int arr[], int n ){
-    int temp=arr[0];
-    for(int i=0;i<n-1;i++){
-        arr[i]=arr[i+1];
+// void solve(int arr[], int n ){
+//     int temp=arr[0];
+//     for(int i=0;i<n-1;i++){
+//         arr[i]=arr[i+1];
+//     }
+//     arr[n-1] = temp;
+//     for(int i=0;i<n;i++){
+//         cout<<arr[i]<<" ";
+//     }
+// }
+// int main(){
+//     int n=5;
+//     int arr[] = {1,2,3,4,5};
+//     solve(arr, n);
+
+// }
+
+// print all subset of an array 
+void printSubset(vector<int> & arr, vector<int> &ans, int i ){
+    //base case
+    if(i == arr.size()){
+        for(int val: ans){
+            cout<<val<<" ";
+        }
+        cout<<endl;
+        return;
     }
-    arr[n-1] = temp;
-    for(int i=0;i<n;i++){
-        cout<<arr[i]<<" ";
-    }
+    //include 
+    ans.push_back(arr[i]);
+    printSubset(arr, ans, i+1);
+    ans.pop_back();
+    //backtracking we remove the last element so that it remain as orginal subse
+    printSubset(arr, ans, i+1);
 }
 int main(){
-    int n=5;
-    int arr[] = {1,2,3,4,5};
-    solve(arr, n);
+    vector<int> arr={1,2,3};
+    vector<int> ans;
+    printSubset(arr, ans, 0);
+    return 0;
+}
+// store subset of leetcode problem 78
 
+void getallsubset(vector<int>& nums, vector<int> &ans, int i,  vector<vector<int>>&allsubset){
+    if(i == nums.size()){
+        allsubset.push_back({ans});
+        return ;
+    }
+    // include
+    ans.push_back(nums[i]);
+    getallsubset(nums, arr, i+1, allsubset);
+    ans.pop_back();
+    getallsubset(nums, arr, i+1, allsubset);
+}
+
+vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> allsubset;
+        vector<int>ans;
+        getallsubset(nums, ans, 0, allsubset);
+        return allsubset;
 }
