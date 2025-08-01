@@ -31,8 +31,50 @@ vector<int> toposort(int v, vector<int> adj[]){
 
 // Ques 2: - Topo sort using bfs / kahn's algorithm ....>>>
 
-vector<int> toposort(int v, vector<int> adj[]){
-    int indegree[v] ={0};
+vector<int> toposort(int V, vector<vector<int>> edges){
+        // Step 1: Build adjacency list
+        vector<int> adj[V];
+        for(auto& edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            adj[u].push_back(v);
+        }
+
+        // Step 2: Calculate indegree
+        vector<int> indegree(V, 0);
+        for(int i = 0; i < V; i++) {
+            for(auto it : adj[i]) {
+                indegree[it]++;
+            }
+        }
+
+        // Step 3: Push nodes with indegree 0 into queue
+        queue<int> q;
+        for(int i = 0; i < V; i++) {
+            if(indegree[i] == 0) {
+                q.push(i);
+            }
+        }
+
+        // Step 4: Kahn's algorithm
+        vector<int> topo;
+        while(!q.empty()) {
+            int node = q.front();
+            q.pop();
+            topo.push_back(node);
+            
+            for(auto it : adj[node]) {
+                indegree[it]--;
+                if(indegree[it] == 0)
+                    q.push(it);
+            }
+        }
+
+        return topo;
+ }
+// ques 3:- Detect a cycle in directed greaph using bfs 
+bool isCycllic(int v, vector<int> adj[]){
+    int indegree[v] = {0};
     for(int i=0;i<v;i++){
         for(auto it : adj[i]){
             indegree[it]++;
@@ -44,17 +86,20 @@ vector<int> toposort(int v, vector<int> adj[]){
             q.push(i);
         }
     }
-    vector<int> topo;
+    int cnt =0;
     while(!q.empty()){
         int node = q.front();
         q.pop();
-        topo.push_back(node);
+        cnt++;
+        //node is in your topo sort
+        //so please remove it form the indegree
 
         for(auto it : adj[node]){
             indegree[it]--;
             if(indegree[it] == 0) q.push(it);
         }
     }
-    return topo;
+    if(cnt == v) return false;
+    return true;
 }
-
+// ques 4:- 
